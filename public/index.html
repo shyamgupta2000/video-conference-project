@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Conference with Face Detection</title>
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <!-- TensorFlow.js Face Detection -->
+    <script defer src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.11.0"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@tensorflow-models/blazeface@0.0.7"></script>
+    
+    <!-- Socket.io Client -->
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+    <!-- Landing Screen -->
+    <div id="landing-screen">
+        <div class="container">
+            <h1>🎥 Video Conference</h1>
+            <p class="subtitle">with Real-Time Face Detection</p>
+            
+            <div class="actions">
+                <div class="action-card">
+                    <h3>Start New Meeting</h3>
+                    <input type="text" id="userName" placeholder="Your Name (Optional)" />
+                    <button id="createRoomBtn" class="btn btn-primary">
+                        Create Room
+                    </button>
+                </div>
+                
+                <div class="divider">OR</div>
+                
+                <div class="action-card">
+                    <h3>Join Existing Meeting</h3>
+                    <input type="text" id="roomIdInput" placeholder="Enter Room ID" />
+                    <button id="joinRoomBtn" class="btn btn-secondary">
+                        Join Room
+                    </button>
+                </div>
+            </div>
+            
+            <div class="features">
+                <div class="feature">
+                    <span>📹</span>
+                    <p>HD Video</p>
+                </div>
+                <div class="feature">
+                    <span>🤖</span>
+                    <p>AI Face Detection</p>
+                </div>
+                <div class="feature">
+                    <span>🔒</span>
+                    <p>Secure P2P</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Meeting Room -->
+    <div id="meeting-room" style="display: none;">
+        <div class="meeting-header">
+            <div class="room-info">
+                <h2>Room: <span id="currentRoomId"></span></h2>
+                <p id="participantCount">1 participant</p>
+            </div>
+            <div class="meeting-controls">
+                <button id="toggleFaceDetection" class="btn btn-detection active">
+                    🤖 Face Detection: ON
+                </button>
+                <button id="toggleVideo" class="btn">
+                    📹 Stop Video
+                </button>
+                <button id="toggleAudio" class="btn">
+                    🎤 Mute
+                </button>
+                <button id="leaveRoom" class="btn btn-danger">
+                    ❌ Leave
+                </button>
+            </div>
+        </div>
+
+        <div class="video-container">
+            <div class="video-wrapper">
+                <video id="localVideo" autoplay muted playsinline></video>
+                <canvas id="localCanvas"></canvas>
+                <div class="video-label">You</div>
+                <div id="localFaceCount" class="face-count">0 faces detected</div>
+            </div>
+            <div id="remoteVideos"></div>
+        </div>
+
+        <div class="info-panel">
+            <p>✅ Face detection is running in real-time</p>
+            <p>📊 Status: <span id="detectionStatus">Initializing...</span></p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/js/socket.js"></script>
+    <script src="/js/webrtc.js"></script>
+    <script src="/js/faceDetection.js"></script>
+    <script src="/js/app.js"></script>
+</body>
+</html>
